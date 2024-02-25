@@ -9,9 +9,7 @@ const useLogout = () => {
   const logout = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.post(
-        "http://localhost:5000/api/auth/logout"
-      );
+      const { data } = await axios.post("api/auth/logout");
       if (data.error) {
         throw new Error(data.error);
       }

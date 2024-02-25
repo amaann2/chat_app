@@ -12,8 +12,8 @@ app.use(express.json());
 const __dirname = path.resolve();
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    methods: ["POST", "GET"],
+    // origin: "http://localhost:5173",
+    // methods: ["POST", "GET"],
     credentials: true,
   })
 );
