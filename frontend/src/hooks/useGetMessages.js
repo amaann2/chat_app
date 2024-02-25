@@ -12,7 +12,7 @@ const useGetMessages = () => {
       setLoading(true);
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/message/${selectedConversation._id}`
+          `/api/message/${selectedConversation._id}`
         );
 
         if (data.error) throw new Error(data.error);

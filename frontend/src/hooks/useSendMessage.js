@@ -11,7 +11,7 @@ const useSendMessage = () => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        `http://localhost:5000/api/message/send/${selectedConversation._id}`,
+        `/api/message/send/${selectedConversation._id}`,
         { message: message },
         { withCredentials: true }
       );
