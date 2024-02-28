@@ -3,14 +3,19 @@ import { useSocketContext } from "../context/socketContext"
 import ReactPlayer from 'react-player'
 import peer from "../utils/peer"
 import './Room.css'
+import { useNavigate } from "react-router-dom"
 const Room = () => {
     const { socket } = useSocketContext()
+    const navigate = useNavigate()
     const [remoteSocketId, setRemoteSocketId] = useState(null);
     const [myStream, setMyStream] = useState();
     const [remoteStream, setRemoteStream] = useState();
+    const [isStreamsConnected, setIsStreamsConnected] = useState(false);
+    const [isCallEnded, setIsCallEnded] = useState(false);
+
 
     const handleUserJoined = useCallback(({ username, id }) => {
-        console.log(`Email ${username} joined room`);
+        console.log(`username ${username} joined room`);
         setRemoteSocketId(id);
     }, []);
 
@@ -43,6 +48,7 @@ const Room = () => {
         for (const track of myStream.getTracks()) {
             peer.peer.addTrack(track, myStream);
         }
+        setIsStreamsConnected(true);
     }, [myStream]);
 
     const handleCallAccepted = useCallback(
@@ -109,10 +115,47 @@ const Room = () => {
         handleNegoNeedFinal,
     ]);
 
+    const handleEndCall = () => {
+        setIsCallEnded(true);
+        navigate('/');
+        window.location.reload();
+    };
+
+
+    useEffect(() => {
+        if (isCallEnded) {
+            // Add any additional cleanup logic here, such as stopping tracks or closing connections.
+            if (myStream) {
+                myStream.getTracks().forEach(track => track.stop());
+            }
+            if (remoteStream) {
+                remoteStream.getTracks().forEach(track => track.stop());
+            }
+        }
+    }, [isCallEnded, myStream, remoteStream]);
+
+
     return (
         <div>
-            {myStream && <button onClick={sendStreams} className="p-2 bg-white text-black rounded-lg m-3">Send Stream</button>}
-            {remoteSocketId && <button onClick={handleCallUser} className="p-2 bg-white text-black rounded-lg m-3 ">CALL</button>}
+
+            {!isStreamsConnected && (
+                <>
+                    <button
+                        onClick={sendStreams}
+                        className="p-2 bg-white text-black rounded-lg m-3"
+                    >
+                        Send Stream
+                    </button>
+                    <button
+                        onClick={handleCallUser}
+                        className="p-2 bg-white text-black rounded-lg m-3"
+                    >
+                        CALL
+                    </button>
+                </>
+            )}
+
+
             <div className="stream">
 
                 {remoteStream && (
@@ -140,7 +183,13 @@ const Room = () => {
                     </>
                 )}
             </div>
-        </div>
+            {isStreamsConnected && <button
+                className="p-2 bg-white text-black rounded-lg m-3"
+                onClick={handleEndCall}
+            >
+                End call
+            </button>}
+        </div >
     );
 };
 

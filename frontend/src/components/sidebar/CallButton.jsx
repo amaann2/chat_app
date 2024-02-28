@@ -14,16 +14,12 @@ const CallButton = () => {
     const roomJoined = () => {
         const roomId = prompt('Please enter the room Id ')
         setRoomID(roomId);
-
         if (!roomID) {
             if (socket) {
                 socket.emit('room:join', { username: authUser.username, room: roomId })
             }
         }
-
     }
-
-
     useEffect(() => {
         const handleJoinedRoom = (data) => {
             const { room } = data

@@ -15,8 +15,8 @@ export const SocketContextProvider = ({ children }) => {
     const { authUser } = useAuthContext()
     useEffect(() => {
         if (authUser) {
-            const socket = io("https://amaan-chat-app.onrender.com", {
             // const socket = io("http://localhost:5000", {
+            const socket = io("https://amaan-chat-app.onrender.com", {
                 query: {
                     userId: authUser._id,
                 },
