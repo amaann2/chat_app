@@ -1,0 +1,28 @@
+.myStream {
+    width: 15%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+}
+
+.remoteStream {
+    width: 100%;
+}
+
+.stream {
+    background-color: black;
+    width: 94vw;
+    height: 88vh;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+
+}
+
+@media only screen and (max-width:800px) {
+    .stream {
+        flex-direction: column;
+    }
+}

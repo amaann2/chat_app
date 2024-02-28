@@ -6,17 +6,18 @@ import { TiMessages } from "react-icons/ti";
 import { useAuthContext } from "../../context/AuthContext";
 import { useSocketContext } from "../../context/socketContext";
 import { MdVideoCall } from "react-icons/md";
+
 const MessageContainer = () => {
     const { selectedConversation, setSelectedConversation } = useConversation()
     const { onlineUsers } = useSocketContext()
     const [status, SetStatus] = useState('')
-    const videoCall = () => {
-        console.log('video call')
-    }
+
+
     useEffect(() => {
         const isOnline = onlineUsers.some(user => user.toString() === selectedConversation?._id.toString());
         SetStatus(isOnline ? 'online' : 'offline');
     }, [onlineUsers, selectedConversation]);
+
     useEffect(() => {
         // cleanup unmount
         return () => setSelectedConversation(null)
@@ -28,7 +29,7 @@ const MessageContainer = () => {
                 <div className='bg-slate-500 px-4 py-2 mb-2 flex justify-between items-center'>
                     <span className='label-text text-gray-900 font-bold'>{selectedConversation.fullName}</span>
                     <span className="label-text text-gray-900 font-bold">{status}</span>
-                    <div><MdVideoCall className="cursor-pointer text-2xl hover:text-gray-900" onClick={videoCall} /></div>
+                    <div><MdVideoCall className="cursor-pointer text-2xl hover:text-gray-900" /></div>
                 </div>
 
                 <Messages />

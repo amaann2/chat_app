@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import { Toaster } from 'react-hot-toast'
 import { useAuthContext } from './context/AuthContext'
 import axios from 'axios'
+import Room from './pages/Room'
 axios.defaults.withCredentials = true
 function App() {
   const { authUser } = useAuthContext()
@@ -15,6 +16,7 @@ function App() {
     <div className='p-4 h-scren flex items-center justify-center'>
       <Routes>
         <Route path='/' element={authUser ? <Home /> : <Navigate to={'/login'} />} />
+        <Route path='/room/:roomId' element={authUser ? <Room /> : <Navigate to={'/login'} />} />
         <Route path='/login' element={authUser ? <Navigate to={'/'} /> : <Login />} />
         <Route path='/signup' element={authUser ? <Navigate to={'/'} /> : <SignUp />} />
 
